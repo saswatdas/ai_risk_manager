@@ -1,0 +1,451 @@
+task_breakdown:
+  description: >
+    Carefully analyze the project_requirements for the {project_type}
+    project and break them down into individual tasks. Define each
+    task's scope in detail, set achievable timelines, and ensure that
+    all dependencies are accounted for:
+
+    {project_requirements}
+
+
+    Team members:
+
+    {team_members}
+  expected_output: >
+    A comprehensive list of tasks with detailed descriptions, timelines,
+    dependencies, and deliverables. Your final output MUST include a
+    Gantt chart or similar timeline visualization specific to the
+    {project_type} project.
+
+time_resource_estimation:
+  description: >
+    Thoroughly evaluate each task in the {project_type} project to
+    estimate the time, resources, and effort required.
+    Use historical data, task complexity, and available resources to
+    provide a realistic estimation for each task.
+  expected_output: >
+    A detailed estimation report outlining the time, resources, and
+    effort required for each task in the {project_type} project.
+    Your final report MUST include a summary of any risks or
+    uncertainties associated with the estimations.
+
+resource_allocation:
+  description: >
+    Strategically allocate tasks for the {project_type} project to
+    team members based on their skills, availability, and current
+    workload. Ensure that each task is assigned to the most suitable
+    team member and that the workload is evenly distributed.
+
+
+    Team members:
+
+    {team_members}
+  expected_output: >
+    A resource allocation chart showing which team members are
+    responsible for each task in the {project_type} project, along with
+    start and end dates. Your final output MUST also include a summary
+    explaining the rationale behind each allocation decision.
+
+########################################################################################################################
+
+firmness_of_opportunity:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+
+business_case:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+business_requirements:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+
+solution​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+
+estimate_budget_accuracy​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+commercialops_functions_support​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+ts_and_broader_rds_it_resource_Capacity:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+ts_process_team_within_comm_ops_bia_org​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+owning_portfolio_it_resource_capacity​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+ongoing_supportability_of_solution​​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+partnership_and_collaboration:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+effective_governance​:
+  description: >
+    Analyze the Project Status Report for project '{project_name} ({project_id})' 
+    and evaluate its risk for the optic **{optic_name}**.
+    **CRITERIA FOR {optic_name}:**
+            - GREEN: {criteria_green}
+            - AMBER: {criteria_amber}
+            - RED: {criteria_red}
+
+            **PROJECT STATUS REPORT TEXT:**
+            {project_text}
+     Carefully read the text with sections name mentioned below (if present),collate them and find evidence that matches the criteria above:
+     --- EXECUTIVE SUMMARY --- 
+     --- COMMENTS ON SCHEDULE ---
+     --- KEY ACTIVITIES PLANNED ---
+     --- LAST MONTH ACHIEVEMENTS ---
+     --- COMMENTS ON BUDGET ---
+     --- COMMENTS ON COST ---
+     --- COMMENTS ON RESOURCES ---
+     --- COMMENTS ON SCOPE ---
+     --- GENERAL COMMENTS ---
+     --- BUSINESS VALUE ---
+            Your output MUST be a valid JSON object with the following structure:
+            {{
+                "optic_name": "{optic_name}",
+                "rating": "Red | Amber | Green",
+                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+            }}
+            
+  expected_output: >
+    A JSON object rating for {optic_name}.
+  
+risk_consolidation:
+  description: >
+
+    Review all the individual optic ratings provided by your team of specialists for project '{project_name}'.
+    Compile them into a single, comprehensive, and structured final report.
+
+            The final output MUST be a valid JSON object conforming to this schema:
+            {{
+                "project_id": "{project_id}",
+                "project_name": "{project_name}",
+                "rating_date": "{today}",
+                "optic_ratings": [ ... ]  # List of all 12 optic rating objects.Don't list  all 12 if they are not provided in the context.
+            }}
+            
+  expected_output: >
+   A final compiled JSON report with all optic ratings.
+    

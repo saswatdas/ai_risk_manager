@@ -1,0 +1,60 @@
+firmness_of_opportunity:
+  Green: "DAF / GIP or 'one pager' prepared and all internal approvals obtained from all impacted portfolios. Start date of IT effort known"
+  Amber: "DAF / GIP or 'one pager' in progress. Impacted portfolio approvals expected within 2 months. Tentative start date of IT effort known"
+  Red: "DAF / GIP or 'one pager' not yet prepared. Approvals not expected for >3 months. Start date of IT effort unknown"
+
+business_case:
+  Green: "L1 and/or L2 benefits defined with agreed benefit owners​"
+  Amber: "Benefits case in progress / needs revisiting​"
+  Red: "No Benefits case developed / existing benefits no longer valid​"
+
+business_requirements:
+  Green: "Ready to mobilize - requirements for impacted portfolios are clearly defined and documented, e.g. in a Charter​​"
+  Amber: "Additional requirements gathering needed in some portfolios in order to formally mobilize​​"
+  Red: "Inadequately defined requirements. "
+
+solution​:
+  Green: "Ready to mobilize - Solution is known​​"
+  Amber: "Additional time/work needed to define solution​​"
+  Red: "Solution not yet understood​"
+
+estimate_budget_accuracy​:
+  Green: "Capacity or Scope-based estimate exists with +/- 20% level of confidence​​"
+  Amber: "Capacity or Scope-based estimate exists with +/- 30% level of confidence.​​"
+  Red: "Planning number based on little science with +/- 50% level of confidence​​"
+
+commercialops_functions_support​:
+  Green: "Existing staff can deliver the all necessary work​​"
+  Amber: "Additional staff needed in some teams and/or a prioritisation call is needed​​"
+  Red: "Lack of required skills and capabilities​​"
+
+ts_and_broader_rds_it_resource_Capacity:
+  Green: "Resource discussion taken place and commitments obtained​​"
+  Amber: "Request made, no firm commitments made​​"
+  Red: "Request made and no resources available and/or lack of required skills/capabilities ​​"
+
+ts_process_team_within_comm_ops_bia_org​:
+  Green: "Existing staff can deliver the work​​"
+  Amber: "Additional staff needed and/or a prioritisation call is needed​​"
+  Red: "Request made and no resources available and/or lack of required skills/capabilities ​​"
+
+owning_portfolio_it_resource_capacity​:
+  Green: "Existing staff can deliver the work​​​"
+  Amber: "Additional staff needed and/or a prioritisation call is needed​​"
+  Red: "Request made and no resources available and/or lack of required skills/capabilities ​​"
+
+ongoing_supportability_of_solution​​:
+  Green: "Solution fits within an existing support model / contract , e.g. Accenture Managed Service (AMS)​​"
+  Amber: "Solution will require amendments to an existing support model / contract (e.g. submission of an RFS) or a new support is in scope for delivery​​"
+  Red: "Support model is unclear or assumes a continuous delivery (DevOps) model which doesn’t currently exist​​​"
+
+
+effective_governance​:
+  Green: "Governance model defined and agreed across IT and Business stakeholders -AND- fully addresses the project scope and risk -AND-clear decision owner identified​"
+  Amber: "Governance model drafted but not yet fully agreed -OR- drafted but does not match the project scope and risk​​​"
+  Red: "Governance model not yet drafted"
+
+partnership_and_collaboration:
+  Green: "Business and IT teams have delivered projects together in the past and have a strong working relationship​​"
+  Amber: "Business and IT teams have some experience or relationship together, but need additional team building to grow or improve the relationship​​​​"
+  Red: "Business and IT teams do not have experience working together OR have experience but relationship is challenged​"
