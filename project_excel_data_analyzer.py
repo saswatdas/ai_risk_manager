@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from typing import List, Dict, Any, Optional
 import logging
+import risk_assesment_output
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -294,14 +295,23 @@ def main():
     
     print("Results saved to risk_analysis_results.json")
     
-    """
-    from risk_assesment_output import RiskAnalysisReport
+    print("Calling generate_final_output to generate output excel")
+    generate_final_output()
     
-    results = RiskAnalysisReport.generateReport('risk_analysis_results.json')
-    # Print or save the results
-    for res in results:
-        print(json.dumps(res, indent=2))
-    """
+    
+def generate_final_output():
+        
+        results = risk_assesment_output.generateReport('risk_analysis_results.json')
+        
+        if(results):
+            print("Output generated successfully...")
+        
+        """
+        # Print or save the results
+        for res in results:
+            print(json.dumps(res, indent=2))
+        """
     
 if __name__ == "__main__":
     main()
+    #generate_final_output()

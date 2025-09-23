@@ -222,8 +222,7 @@ def create_health_trend_chart(health_trend):
 def main():
     st.set_page_config(
         page_title="Project Risk Dashboard",
-        page_icon="📊",
-        layout="wide",
+        page_icon="📊", 
         initial_sidebar_state="expanded"
     )
 
@@ -240,6 +239,8 @@ def main():
     # Check API connection
     try:
         health_response = requests.get(f"{API_BASE_URL}/health")
+        print("health_response....",health_response)
+        print("health_response.status_code",health_response.status_code)
         api_healthy = health_response.status_code == 200
     except:
         api_healthy = False
@@ -411,7 +412,7 @@ def main():
         st.dataframe(
             display_df.style.applymap(color_health, subset=['Overall Health']),
             use_container_width=True,
-            height=400
+            height=200
         )
         
     else:
@@ -446,13 +447,38 @@ def main():
                 
                 # Display overall health banner
                 st.markdown(f"""
-                <div style="background-color: {health_color}; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
-                    <h2 style="color: white; margin: 0;">Overall Project Health: {health_icon} {overall_health}</h2>
-                    <p style="color: white; margin: 5px 0 0 0;">
-                        Based on assessment date: {assessment_date}
-                    </p>
-                </div>
+                    <div style="background-color: {health_color}; padding: 2px; border-radius: 6px; text-align: center; margin-bottom: 2px;">
+                        <h5 style="color: white; margin: 0; font-size: 10px;">
+                             Overall Project Health: {health_icon} {overall_health}
+                        </h5>
+            
+                    </div>
                 """, unsafe_allow_html=True)
+
+                # Risk Assessment Details
+                st.header("🔍 Risk Assessment Details")
+                
+                df = pd.DataFrame(project_assessments)
+                
+                def color_rating(rating):
+                    if rating == 'Green':
+                        return 'background-color: #90EE90'
+                    elif rating == 'Amber':
+                        return 'background-color: #FFE4B5'
+                    elif rating == 'Red':
+                        return 'background-color: #FFB6C1'
+                    return ''
+                
+                display_df = df[['optic_name', 'rating', 'justification', 'rating_date']].copy()
+                display_df.columns = ['Optics Name', 'Optics Rating', 'Assessment Rationale', 'Assessment Date']
+                
+                styled_df = display_df.style.applymap(color_rating, subset=['Optics Rating'])
+                
+                st.dataframe(
+                    styled_df,
+                    use_container_width=True,
+                    height=400
+                )
                 
                 # Health Trend Section
                 all_assessments = fetch_project_assessments(st.session_state.selected_project_id)
@@ -480,30 +506,7 @@ def main():
                         
                         st.metric("Total Assessments", len(health_trend))
                 
-                # Risk Assessment Details
-                st.header("🔍 Risk Assessment Details")
                 
-                df = pd.DataFrame(project_assessments)
-                
-                def color_rating(rating):
-                    if rating == 'Green':
-                        return 'background-color: #90EE90'
-                    elif rating == 'Amber':
-                        return 'background-color: #FFE4B5'
-                    elif rating == 'Red':
-                        return 'background-color: #FFB6C1'
-                    return ''
-                
-                display_df = df[['optic_name', 'rating', 'justification', 'rating_date']].copy()
-                display_df.columns = ['Risk Category', 'Risk Level', 'Assessment Rationale', 'Assessment Date']
-                
-                styled_df = display_df.style.applymap(color_rating, subset=['Risk Level'])
-                
-                st.dataframe(
-                    styled_df,
-                    use_container_width=True,
-                    height=400
-                )
                 
                 # Risk distribution
                 col1, col2 = st.columns([1, 2])
