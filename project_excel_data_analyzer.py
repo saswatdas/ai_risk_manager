@@ -23,7 +23,7 @@ class ProjectStatusParser:
         self.df = None
         self.required_columns = [
             'Project Name', 'Number', 'Executive Summary', 'Planned end date',
-            'Planned start date', 'Updated', 'Phase', 'Business Value Comment',
+             'Updated',  'Business Value Comment',
             'Comments', 'Comments on Budget', 'Comments on Cost', 
             'Comments on Resources', 'Comments on Schedule', 'Comments on Scope',
             'Key Activities planned', 'Last Month\'s Achievements'

@@ -1,12 +1,13 @@
-import json
+import json, os
 import pandas as pd
 import risk_summary_db_ingestion
 
 def generateReport(jsonpath: str):
     
-    jsonpath = jsonpath  #"risk_analysis_results.json"
+    jsonfile = jsonpath  #"risk_analysis_results.json"
+    print("Here...")
     
-    with open(jsonpath, "r") as f:
+    with open(jsonfile, "r") as f:
         data = json.load(f)   # data is a list of dicts
 
     results = []
@@ -73,10 +74,29 @@ def generateReport(jsonpath: str):
         df = pd.DataFrame(rows)
 
         # Save to Excel
-        output_file = "risk_analysis_report.xlsx"
-        df.to_excel(output_file, index=False)
+
+        output_file = jsonfile
+        base, ext = os.path.splitext(output_file)
+
+        if ext == ".json":
+            output_file = base + ".xlsx"
+
+        print("output_file>>",output_file)  # Output: data.xls
+
+        #output_file = "risk_analysis_report.xlsx"
+        if not os.path.exists(output_file):
+            df.to_excel(output_file, index=False)
+        else:
+            # Append to existing Excel file
+            with pd.ExcelWriter(output_file, mode='a', engine='openpyxl', if_sheet_exists='overlay') as writer:
+                df.to_excel(writer, sheet_name='Sheet1', index=False, header=False, startrow=writer.sheets['Sheet1'].max_row)
+
 
         print(f"Excel file saved as {output_file}")
         
         #Save to Postgresql DB
         risk_summary_db_ingestion.process_data_to_database(final_project_id,rows)
+
+
+if __name__ == "__main__":
+    generateReport("risk_analysis_results_new.json")

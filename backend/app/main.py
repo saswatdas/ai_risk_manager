@@ -31,11 +31,11 @@ app.add_middleware(
 
 # Database configuration
 DB_CONFIG = {
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'database': os.getenv('DB_NAME', 'mydb'),
-    'user': os.getenv('DB_USER', 'myuser'),
-    'password': os.getenv('DB_PASSWORD', 'password@123'),
-    'port': os.getenv('DB_PORT', '5432')
+    'host': os.getenv('DB_HOST'),
+    'database': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'port': os.getenv('DB_PORT')
 }
 
 # Pydantic models for request/response
@@ -89,9 +89,9 @@ class ProjectTrend(BaseModel):
 def get_db_connection():
     """Create and return a database connection."""
     try:
-        print("DB_CONFIG::",DB_CONFIG)
+        #print("os.getenv('DB_HOST')::",os.getenv('DB_HOST'))
         connection = asyncpg.connect(**DB_CONFIG)
-        print("database connection.....", connection)
+        #print("database config.....", DB_CONFIG)
         return connection
     except Exception as e:
         print(f"Database connection error: {e}")
