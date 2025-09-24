@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import numpy as np
+import os
 
 # Excel file configuration
 EXCEL_FILE_PATH = "/Users/saswatdas/ai_agent_project/risk_analysis_report.xlsx"
@@ -17,6 +18,26 @@ def load_data_from_excel():
     except Exception as e:
         st.error(f"Error loading data from Excel: {e}")
         return pd.DataFrame()
+
+def save_data_to_excel(df, original_file_path=EXCEL_FILE_PATH):
+    """Save data to a new versioned Excel file."""
+    try:
+        # Create new filename with current date
+        current_date = datetime.now().strftime("%d_%m_%Y")
+        base_name = original_file_path.replace('.xlsx', '')
+        new_file_path = f"{base_name}_{current_date}.xlsx"
+        
+        # Save to new file
+        df.to_excel(new_file_path, index=False)
+        
+        # If the new file is different from original, also update the original for current session
+        if new_file_path != original_file_path:
+            df.to_excel(original_file_path, index=False)
+            
+        return new_file_path
+    except Exception as e:
+        st.error(f"Error saving data to Excel: {e}")
+        return None
 
 def fetch_projects():
     """Fetch list of all projects from Excel data."""
@@ -226,6 +247,10 @@ def main():
         st.session_state.all_dates = []
     if 'filtered_projects' not in st.session_state:
         st.session_state.filtered_projects = []
+    if 'editable_data' not in st.session_state:
+        st.session_state.editable_data = None
+    if 'edit_mode' not in st.session_state:
+        st.session_state.edit_mode = False
 
     # Check Excel data connection
     try:
@@ -351,12 +376,12 @@ def main():
     # Main content area
     if st.session_state.selected_project_id is None:
         # Show overall health for filtered projects
-        st.subheader("🏢 Project Portfolio Dashboard")
+        st.title("🏢 Project Portfolio Dashboard")
         
         if st.session_state.selected_date:
-            st.markdown(f"##### Showing assessments for: {st.session_state.selected_date}")
+            st.markdown(f"### 📅 Showing assessments for: {st.session_state.selected_date}")
         else:
-            st.markdown("##### Showing latest assessments across all dates")
+            st.markdown("### 📅 Showing latest assessments across all dates")
         
         st.markdown("---")
         
@@ -365,7 +390,7 @@ def main():
             return
         
         # Project health overview table
-        st.subheader("📋 Project Health Overview")
+        st.header("📋 Project Health Overview")
         
         # Create overview data
         overview_data = []
@@ -427,7 +452,7 @@ def main():
                 assessment_date = project_assessments[0]['rating_date'] if project_assessments else 'N/A'
                 date_info = f"Latest Assessment: {assessment_date}"
             
-            st.subheader(f"📊 {selected_project_name}")
+            st.title(f"📊 {selected_project_name}")
             st.markdown(f"**Project ID:** {st.session_state.selected_project_id}")
             st.markdown(f"**{date_info}**")
             st.markdown("---")
@@ -449,7 +474,17 @@ def main():
                 """, unsafe_allow_html=True)
 
                 # Risk Assessment Details
-                st.subheader("🔍 Risk Assessment Details")
+                st.header("🔍 Risk Assessment Details")
+                
+                # Edit mode toggle
+                col1, col2 = st.columns([3, 1])
+                with col2:
+                    if st.button("✏️ Edit Optics Ratings", type="secondary"):
+                        st.session_state.edit_mode = not st.session_state.edit_mode
+                        st.rerun()
+                
+                if st.session_state.edit_mode:
+                    st.info("📝 Edit mode enabled. Change the ratings using the dropdown menus below.")
                 
                 df = pd.DataFrame(project_assessments)
                 
@@ -462,16 +497,106 @@ def main():
                         return 'background-color: #FFB6C1'
                     return ''
                 
-                display_df = df[['optic_name', 'rating', 'justification', 'rating_date']].copy()
-                display_df.columns = ['Optics Name', 'Optics Rating', 'Assessment Rationale', 'Assessment Date']
+                # Prepare display data
+                display_data = df[['optic_name', 'rating', 'justification', 'rating_date']].copy()
+                display_data.columns = ['Optics Name', 'Optics Rating', 'Assessment Rationale', 'Assessment Date']
                 
-                styled_df = display_df.style.applymap(color_rating, subset=['Optics Rating'])
+                if st.session_state.edit_mode:
+                    # Create editable dataframe
+                    edited_data = display_data.copy()
+                    
+                    # Create form for editing
+                    with st.form("edit_optic_ratings"):
+                        st.subheader("Edit Risk Ratings")
+                        
+                        for i, row in edited_data.iterrows():
+                            st.markdown(f"**{row['Optics Name']}**")
+                            col1, col2 = st.columns([2, 3])
+                            with col1:
+                                # Editable rating dropdown
+                                new_rating = st.selectbox(
+                                    f"Rating for {row['Optics Name']}",
+                                    options=['Green', 'Amber', 'Red'],
+                                    index=['Green', 'Amber', 'Red'].index(row['Optics Rating']) if row['Optics Rating'] in ['Green', 'Amber', 'Red'] else 0,
+                                    key=f"rating_{i}"
+                                )
+                                edited_data.at[i, 'Optics Rating'] = new_rating
+                            with col2:
+                                st.text_area(
+                                    f"Justification for {row['Optics Name']}",
+                                    value=row['Assessment Rationale'],
+                                    key=f"justification_{i}",
+                                    height=80
+                                )
+                            st.markdown("---")
+                        
+                        # Save and Cancel buttons
+                        col1, col2, col3 = st.columns([1, 1, 1])
+                        with col2:
+                            save_changes = st.form_submit_button("💾 Save Changes", type="primary")
+                        with col3:
+                            cancel_changes = st.form_submit_button("❌ Cancel")
+                        
+                        if save_changes:
+                            # Update the original data
+                            original_df = load_data_from_excel()
+                            
+                            # Update ratings and justifications in the original dataframe
+                            for i, row in edited_data.iterrows():
+                                original_optic_name = display_data.iloc[i]['Optics Name']
+                                new_rating = row['Optics Rating']
+                                new_justification = row['Assessment Rationale']
+                                
+                                # Find and update the corresponding row in original dataframe
+                                mask = (original_df['project_id'] == st.session_state.selected_project_id) & \
+                                       (original_df['optic_name'] == original_optic_name) & \
+                                       (original_df['rating_date'] == assessment_date)
+                                
+                                if original_df[mask].shape[0] > 0:
+                                    original_df.loc[mask, 'rating'] = new_rating
+                                    original_df.loc[mask, 'justification'] = new_justification
+                            
+                            # Save the updated data
+                            saved_file = save_data_to_excel(original_df)
+                            if saved_file:
+                                st.success(f"✅ Changes saved successfully to: {saved_file}")
+                                st.session_state.edit_mode = False
+                                st.rerun()
+                            else:
+                                st.error("❌ Failed to save changes.")
+                        
+                        if cancel_changes:
+                            st.session_state.edit_mode = False
+                            st.rerun()
+                    
+                    # Display the edited data for preview with color coding
+                    st.subheader("Preview of Changes")
+                    
+                    # Apply color coding to the preview
+                    def color_rating_preview(val):
+                        if val == 'Green':
+                            return 'color: #006400; font-weight: bold;'
+                        elif val == 'Amber':
+                            return 'color: #FF8C00; font-weight: bold;'
+                        elif val == 'Red':
+                            return 'color: #FF0000; font-weight: bold;'
+                        return ''
+                    
+                    styled_edited_df = edited_data.style.applymap(color_rating_preview, subset=['Optics Rating'])
+                    st.dataframe(
+                        styled_edited_df,
+                        use_container_width=True,
+                        height=400
+                    )
                 
-                st.dataframe(
-                    styled_df,
-                    use_container_width=True,
-                    height=400
-                )
+                else:
+                    # Display read-only data with color coding
+                    styled_df = display_data.style.applymap(color_rating, subset=['Optics Rating'])
+                    st.dataframe(
+                        styled_df,
+                        use_container_width=True,
+                        height=400
+                    )
                 
                 # Health Trend Section
                 all_assessments = fetch_project_assessments(st.session_state.selected_project_id)
