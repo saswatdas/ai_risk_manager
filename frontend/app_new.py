@@ -390,7 +390,7 @@ def main():
             return
         
         # Project health overview table
-        st.header("📋 Project Health Overview")
+        st.subheader("📋 Project Health Overview")
         
         # Create overview data
         overview_data = []
@@ -474,7 +474,7 @@ def main():
                 """, unsafe_allow_html=True)
 
                 # Risk Assessment Details
-                st.header("🔍 Risk Assessment Details")
+                st.subheader("🔍 Risk Assessment Details")
                 
                 # Edit mode toggle
                 col1, col2 = st.columns([3, 1])
