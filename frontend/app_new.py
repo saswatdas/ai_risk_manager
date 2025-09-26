@@ -498,8 +498,8 @@ def main():
                     return ''
                 
                 # Prepare display data
-                display_data = df[['optic_name', 'rating', 'justification', 'rating_date']].copy()
-                display_data.columns = ['Optics Name', 'Optics Rating', 'Assessment Rationale', 'Assessment Date']
+                display_data = df[['optic_name', 'rating', 'justification', 'recommendation', 'rating_date']].copy()
+                display_data.columns = ['Optics Name', 'Optics Rating', 'Assessment Rationale', 'Recommendation', 'Assessment Date']
                 
                 if st.session_state.edit_mode:
                     # Create editable dataframe

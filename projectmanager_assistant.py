@@ -33,7 +33,8 @@ optics_knowledgebase_config =configs['optics_knowledge_base']
 class OpticRating(BaseModel):
     optic_name: str = Field(..., description="The name of the optic being rated.")
     rating: str = Field(..., description="The rating for the optic: Red, Amber, or Green.")
-    justification: str = Field(..., description="The direct quote from the text that supports the rating.")
+    justification: str = Field(..., description="The direct/inferred quote from the text that supports the rating.")
+    recommendation: str = Field(..., description="The direct/inferred quote from the text that supports the rating.")
 
 class ProjectRating(BaseModel):
     project_id: str = Field(..., description="The unique ID of the project.")

@@ -74,7 +74,9 @@ firmness_of_opportunity:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
+
             }}
             
   expected_output: >

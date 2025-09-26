@@ -4,7 +4,9 @@ import numpy as np
 from typing import List, Dict, Any, Optional
 import logging
 import risk_assesment_output
-
+import re,  json
+ # Now process each project through the CrewAI system
+from projectmanager_assistant import ProjectRiskCrew  # Import your CrewAI class
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -22,7 +24,7 @@ class ProjectStatusParser:
         self.sheet_name = sheet_name
         self.df = None
         self.required_columns = [
-            'Project Name', 'Number', 'Executive Summary', 'Planned end date',
+            'Project Name', 'Number', 'Executive Summary',
              'Updated',  'Business Value Comment',
             'Comments', 'Comments on Budget', 'Comments on Cost', 
             'Comments on Resources', 'Comments on Schedule', 'Comments on Scope',
@@ -63,12 +65,12 @@ class ProjectStatusParser:
     def _clean_data(self):
         """Perform basic data cleaning operations."""
         # Replace NaN values with empty strings for text columns
-        text_columns = [col for col in self.required_columns if col not in ['Planned end date', 'Planned start date', 'Updated']]
+        text_columns = [col for col in self.required_columns if col not in [ 'Updated']]
         for col in text_columns:
             self.df[col] = self.df[col].fillna('')
         
         # Convert date columns to proper format
-        date_columns = ['Planned end date', 'Planned start date', 'Updated']
+        date_columns = [ 'Updated']
         for col in date_columns:
             if col in self.df.columns:
                 self.df[col] = pd.to_datetime(self.df[col], errors='coerce')
@@ -136,13 +138,14 @@ class ProjectStatusParser:
         if last_updated:
             text_parts.append(f"LAST UPDATED: {last_updated}")
         # Add date context
+        """
         start_date = row.get('Planned start date', '')
         end_date = row.get('Planned end date', '')
         if not pd.isna(start_date):
             text_parts.append(f"PLANNED START DATE: {start_date.strftime('%Y-%m-%d') if hasattr(start_date, 'strftime') else start_date}")
         if not pd.isna(end_date):
             text_parts.append(f"PLANNED END DATE: {end_date.strftime('%Y-%m-%d') if hasattr(end_date, 'strftime') else end_date}")
-        
+        """
         return "\n".join(text_parts)
     
     def get_projects_for_analysis(self) -> List[Dict[str, Any]]:
@@ -233,75 +236,114 @@ def extract_risk_officer_summary(final_result):
     else:
         # Handle string or other formats
         return str(final_result)
+    
+    
+def extract_project_data(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path, sheet_name='Sheet1')
+    
+    print("Original data sample:")
+    print(df[['Project Name', 'Number', 'Updated']].head())
+    
+    # Convert Updated column to datetime
+    df['Updated'] = pd.to_datetime(df['Updated'])
+    
+    # Define text columns
+    text_columns = [
+        'Executive Summary', 'Business Value Comment', 'Comments', 
+        'Comments on Budget', 'Comments on Cost', 'Comments on Resources', 
+        'Comments on Schedule', 'Comments on Scope', 'Key Activities planned', 
+        "Last Month's Achievements"
+    ]
+    
+    # Simple text extraction - just convert to string
+    def simple_extract_text(content):
+        if pd.isna(content):
+            return ""
+        return str(content).strip()
+    
+    # Process each project group
+    result_rows = []
+    
+    for (project_name, project_number), group in df.groupby(['Project Name', 'Number']):
+        print(f"Processing {project_name} - {project_number}, records: {len(group)}")
+        
+        # Get latest record
+        latest_record = group.loc[group['Updated'].idxmax()]
+        
+        # Simply concatenate all text fields from all records
+        all_texts = []
+        for _, record in group.iterrows():
+            for col in text_columns:
+                if col in record:
+                    text = simple_extract_text(record[col])
+                    if text and text not in ['-', 'n/a', 'nan', 'None', '']:
+                        all_texts.append(f"{col}: {text}")
+        
+        project_text = "\n".join(all_texts) if all_texts else "No content"
+        
+        result_rows.append({
+            'project_name': project_name,
+            'project_id': project_number,
+            'portfolio_manager': latest_record.get('Portfolio manager', ''),
+            'latest_updated': latest_record['Updated'],
+            'total_records': len(group),
+            'project_text': project_text
+        })
+    
+    #result_df = pd.DataFrame(result_rows)
+    #return result_df
+    return result_rows
 # Example usage and integration with ProjectRiskCrew
-def main():
+def main(excel_file_path):
     # Initialize the parser
-    excel_file_path = "status_report.xlsx"  # Update this path
-    parser = ProjectStatusParser(excel_file_path)
-    
-    # Process the Excel file
-    projects_for_analysis = parser.process_excel_to_crew_input()
-    
-    if not projects_for_analysis:
-        print("No projects to analyze. Exiting.")
-        return
-    
-    # Now process each project through the CrewAI system
-    from projectmanager_assistant import ProjectRiskCrew  # Import your CrewAI class
-    
-    all_results = []
-    project_ids=[]
-    project_text=''
-    for project_data in projects_for_analysis:
-        print(f"\n{'='*50}")
-        print(f"Analyzing Project: {project_data['project_name']} ({project_data['project_id']})")
-        print(f"{'='*50}")
-        project_ids.append(project_data['project_id'])
-        if(project_data['project_id'] in project_ids):
-            project_text=project_text+project_data['project_text']
+        all_results = []
+        project_data=[]
+        project_text=''
+        project_id=''
+        project_name =''
+       # excel_file_path = "status_report.xlsx"
        
-            
-            #print("project_text :::::: ",project_text)
-            
-        # Initialize and run the crew for this project     
-        crew = ProjectRiskCrew(
-                project_id=project_data['project_id'],
-                project_name=project_data['project_name'],
-                project_text=project_text
-            )
-            
-        result = crew.run()
-        all_results.append(result)
-        """
-        project_summary =extract_risk_officer_summary (all_results)  
+        project_data= extract_project_data(excel_file_path)
+        # Process each project in the list 
+        for project in project_data:
+            print(f"\nProcessing project: {project['project_name']} ({project['project_id']})")
+            # Initialize and run the crew for this project        
+            # #Overall health	Resources	Schedule	Scope	Cost	Value  
+            crew = ProjectRiskCrew(
+                    project_id= project['project_id'],
+                    project_name= project['project_name'],
+                    project_text= project['project_text']
+                )
+                
+            result = crew.run()
+            all_results.append(result)
+       
+   
+       # Save or process the results
+        print(f"\nCompleted analysis of {len(all_results)} projects")
         
-        print("CHIEF RISK ASSESSMENT OFFICER SUMMARY:")
-        print("=" * 60)
-        print("PROJECT SUMMARY: \n", project_summary)
-        print("=" * 60)
-        """
-        #print(f"Analysis completed for {project_data['project_id']}")
-        #Overall health	Resources	Schedule	Scope	Cost	Value
+        # You could save results to JSON, database, etc.
+        with open('risk_analysis_report.json', 'w') as f:
+            # Convert results to serializable format
+            serializable_results = []
+            for result in all_results:
+                if hasattr(result, 'dict'):
+                    serializable_results.append(result.dict())
+                else:
+                    serializable_results.append(str(result))
             
+            json.dump(serializable_results, f, indent=2)
         
-    
-    # Save or process the results
-    #print(f"\nCompleted analysis of {len(all_results)} projects")
-     
-    # You could save results to JSON, database, etc.
-    import json
-    with open('risk_analysis_results.json', 'w') as f:
-        json.dump([result.dict() if hasattr(result, 'dict') else result for result in all_results], f, indent=2)
-    
-    print("Results saved to risk_analysis_results.json")
-    
-    print("Calling generate_final_output to generate output excel")
-    generate_final_output()
-    
+        print("Results saved to risk_analysis_report.json")
+        
+        print("Calling generate_final_output to generate output excel")
+        generate_final_output()
+   
     
 def generate_final_output():
         
-        results = risk_assesment_output.generateReport('risk_analysis_results.json')
+        results = risk_assesment_output.generateReport('risk_analysis_report.json')
         
         if(results):
             print("Output generated successfully...")
@@ -311,7 +353,111 @@ def generate_final_output():
         for res in results:
             print(json.dumps(res, indent=2))
         """
+
+
+def process_status_report(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path, sheet_name='Sheet1')
     
+    print(f"Original DataFrame shape: {df.shape}")
+    print(f"Columns: {df.columns.tolist()}")
+    
+    # Convert Updated column to datetime
+    df['Updated'] = pd.to_datetime(df['Updated'])
+    
+    # Define the columns to concatenate
+    text_columns = [
+        'Executive Summary', 'Business Value Comment', 'Comments', 
+        'Comments on Budget', 'Comments on Cost', 'Comments on Resources', 
+        'Comments on Schedule', 'Comments on Scope', 'Key Activities planned', 
+        "Last Month's Achievements"
+    ]
+    
+    # Check which columns actually exist in the dataframe
+    available_text_columns = [col for col in text_columns if col in df.columns]
+    print(f"Available text columns: {available_text_columns}")
+    
+    # Function to extract text from HTML content
+    def extract_text_from_html(html_content):
+        if pd.isna(html_content) or html_content in ['', '-', 'n/a', 'nan', 'None']:
+            return ""
+        
+        text = str(html_content)
+        
+        # Remove HTML tags but preserve text content
+        text = re.sub(r'<[^>]+>', ' ', text)  # Replace tags with space
+        
+        # Handle specific HTML entities
+        text = text.replace('&nbsp;', ' ').replace('&amp;', '&')
+        text = text.replace('&lt;', '<').replace('&gt;', '>')
+        
+        # Clean up multiple spaces and newlines
+        text = re.sub(r'\s+', ' ', text)
+        text = text.strip()
+        
+        return text
+    
+    # Function to concatenate fields from a group of records
+    def concatenate_project_text(group):
+        all_text_parts = []
+        
+        # Sort by date to process in chronological order
+        group_sorted = group.sort_values('Updated')
+        
+        for _, record in group_sorted.iterrows():
+            record_text_parts = []
+            
+            for col in available_text_columns:
+                if col in record and not pd.isna(record[col]):
+                    extracted_text = extract_text_from_html(record[col])+"    "
+                    if extracted_text and extracted_text not in ['-', 'n/a', 'nan', 'None']:
+                        record_text_parts.append(f"-- {col} -- >> {extracted_text}")
+            
+            if record_text_parts:
+                # Add date header for this record's content
+                date_str = record['Updated'].strftime('%Y-%m-%d')
+                all_text_parts.append(f"\n--- Record from {date_str} ---")
+                all_text_parts.extend(record_text_parts)
+        
+        return '\n'.join(all_text_parts) if all_text_parts else "No text content available"
+    
+    # Process each project group
+    result_rows = []
+    
+    # Group by Project Name and Number
+    grouped = df.groupby(['Project Name', 'Number'])
+    print(f"Number of unique project groups: {len(grouped)}")
+    
+    for (project_name, project_number), group in grouped:
+        print(f"\nProcessing: {project_name} - {project_number}")
+        print(f"Records in group: {len(group)}")
+        
+        # Get the most recent record for basic info
+        latest_record = group.loc[group['Updated'].idxmax()]
+        
+        # Concatenate text from all records in this group
+        project_text = concatenate_project_text(group)
+        
+        print(f"Project text length: {len(project_text)}")
+        if project_text:
+            print(f"Sample text: {project_text[:200]}...")
+        
+        result_record = {
+            'Project Name': project_name,
+            'Number': project_number,
+            'Portfolio manager': latest_record.get('Portfolio manager', ''),
+            'Latest Update': latest_record['Updated'],
+            'Total Records': len(group),
+            'project_text': project_text
+        }
+        
+        result_rows.append(result_record)
+    
+    # Create result DataFrame
+    result_df = pd.DataFrame(result_rows)
+    
+    return result_df
+        
 if __name__ == "__main__":
-    main()
-    #generate_final_output()
+    main('status_report.xlsx')
+   

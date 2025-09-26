@@ -60,7 +60,7 @@ firmness_of_opportunity:
     Your accuracy is critical for the organization's strategic decision-making.
   #allow_delegation: false
   verbose: true
-  max_iter: 1
+  max_iter: 2
 business_case:
   role: >
     Senior Risk Analyst specializing in {optic_name}
