@@ -253,10 +253,10 @@ def extract_project_data(file_path):
     
     # Define text columns
     text_columns = [
-        'Executive Summary', 'Business Value Comment', 'Comments', 
+        'Executive Summary', 'Planned end date', 'Planned start date','Business Value Comment', 'Comments', 
         'Comments on Budget', 'Comments on Cost', 'Comments on Resources', 
         'Comments on Schedule', 'Comments on Scope', 'Key Activities planned', 
-        "Last Month's Achievements"
+        "Last Month's Achievements",  'Phase'
     ]
     
     # Simple text extraction - just convert to string
@@ -311,8 +311,10 @@ def main(excel_file_path):
         # Process each project in the list 
         for project in project_data:
             print(f"\nProcessing project: {project['project_name']} ({project['project_id']})")
+            print("project_text>>>>>>>", project['project_text'])
             # Initialize and run the crew for this project        
             # #Overall health	Resources	Schedule	Scope	Cost	Value  
+            
             crew = ProjectRiskCrew(
                     project_id= project['project_id'],
                     project_name= project['project_name'],
@@ -342,7 +344,7 @@ def main(excel_file_path):
         
         print("Calling generate_final_output to generate output excel")
         generate_final_output()
-   
+        
     
 def generate_final_output():
         
@@ -373,7 +375,7 @@ def process_status_report(file_path):
         'Executive Summary', 'Business Value Comment', 'Comments', 
         'Comments on Budget', 'Comments on Cost', 'Comments on Resources', 
         'Comments on Schedule', 'Comments on Scope', 'Key Activities planned', 
-        "Last Month's Achievements"
+        "Last Month's Achievements", 'Planned Start Date', 'Planned End Date', 'Phase'
     ]
     
     # Check which columns actually exist in the dataframe
