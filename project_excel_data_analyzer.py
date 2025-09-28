@@ -120,7 +120,10 @@ class ProjectStatusParser:
             ('KEY ACTIVITIES PLANNED', 'Key Activities planned'),
             ('LAST MONTH ACHIEVEMENTS', 'Last Month\'s Achievements'),
             ('BUSINESS VALUE', 'Business Value Comment'),
-            ('LAST UPDATED', 'Updated')
+            ('LAST UPDATED', 'Updated'),
+            ('PLANNED START DATE','Planned start date'),
+            ('PLANNED END DATE','Planned end date'),
+            ('PHASE','Phase')
         ]
         
         for section_name, column_name in sections:
@@ -138,14 +141,14 @@ class ProjectStatusParser:
         if last_updated:
             text_parts.append(f"LAST UPDATED: {last_updated}")
         # Add date context
-        """
+        
         start_date = row.get('Planned start date', '')
         end_date = row.get('Planned end date', '')
         if not pd.isna(start_date):
             text_parts.append(f"PLANNED START DATE: {start_date.strftime('%Y-%m-%d') if hasattr(start_date, 'strftime') else start_date}")
         if not pd.isna(end_date):
             text_parts.append(f"PLANNED END DATE: {end_date.strftime('%Y-%m-%d') if hasattr(end_date, 'strftime') else end_date}")
-        """
+        
         return "\n".join(text_parts)
     
     def get_projects_for_analysis(self) -> List[Dict[str, Any]]:

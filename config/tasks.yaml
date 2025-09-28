@@ -70,6 +70,9 @@ firmness_of_opportunity:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
@@ -104,11 +107,16 @@ business_case:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
+
             }}
             
   expected_output: >
@@ -136,11 +144,15 @@ business_requirements:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -168,11 +180,15 @@ solution​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -200,11 +216,15 @@ estimate_budget_accuracy​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+               "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+               "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -232,11 +252,15 @@ commercialops_functions_support​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+              "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+              "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -264,11 +288,15 @@ ts_and_broader_rds_it_resource_Capacity:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -296,11 +324,15 @@ ts_process_team_within_comm_ops_bia_org​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -328,11 +360,15 @@ owning_portfolio_it_resource_capacity​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -360,11 +396,15 @@ ongoing_supportability_of_solution​​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+               "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -392,11 +432,15 @@ partnership_and_collaboration:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+                "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
@@ -424,11 +468,15 @@ effective_governance​:
      --- COMMENTS ON SCOPE ---
      --- GENERAL COMMENTS ---
      --- BUSINESS VALUE ---
+     --- PLANNED START DATE ---
+     --- PLANNED END DATE ---
+     --- PHASE ---
             Your output MUST be a valid JSON object with the following structure:
             {{
                 "optic_name": "{optic_name}",
                 "rating": "Red | Amber | Green",
-                "justification": "The direct quote from the text that proves your rating. If no direct evidence exists, the say don't have the data to provide.'"
+               "justification": "The direct/inferred quote from the text that proves your rating. If no direct evidence exists, then infer a justification from the available data and provide.",
+                "recommendation": "Recommend the action that can be taken from the available data and your analysis of the project data to make the optic rating to Green"
             }}
             
   expected_output: >
